@@ -31,7 +31,9 @@ router.get("/users/:email", async (request, response) => {
         if (querySnapshot.empty) {
             response.status(404).send("No se encontró el usuario con ese email");
         } else {
-            response.status(200).send(querySnapshot.docs[0].data());
+            const userData = querySnapshot.docs[0].data();
+            const userId = querySnapshot.docs[0].id;
+            response.status(200).send({ ...userData, id: userId });
         }
     }).catch((error) => {
         console.error("Error al buscar el email: ", error);
@@ -49,11 +51,14 @@ router.post("/users", async (request, response) => {
             response.status(400).send("Ya existe un usuario con ese email");
         } else {
             db.collection("usuarios").add(user).then((docRef) => {
-                console.log("Documento creado con ID: ", docRef.id);
-                response.status(201).send(docRef.id);
+                console.log("User creado con ID: ", docRef.id);
+                response.status(201).send({
+                    message: "Usuario creado con exito",
+                    id: docRef.id
+                });
             }).catch((error) => {
-                console.error("Error al agregar el documento: ", error);
-                response.status(500).send("Error al agregar el documento");
+                console.error("Error al agregar el usuario: ", error);
+                response.status(500).send("Error al agregar el usuario");
             });
         }
     }).catch((error) => {
