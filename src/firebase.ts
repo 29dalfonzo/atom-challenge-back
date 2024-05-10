@@ -1,6 +1,7 @@
 import {initializeApp, applicationDefault} from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
+// Initialize Firebase Admin
 const firebaseApp = initializeApp({
     credential: applicationDefault(),
 });
