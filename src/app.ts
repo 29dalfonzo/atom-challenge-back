@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import allRoutes from "./routes/routes";
-import router from "./routes/index";
+import usersRouter from "./routes/users";
+import tasksRouter from "./routes/tasks";
 
  const app = express();
 
@@ -13,7 +14,9 @@ app.use(allRoutes);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(router); // Usa el router importado
+app.use(usersRouter); // Usa el router importado
+app.use(tasksRouter); // Usa el router importado
+
 
 
 export { app };

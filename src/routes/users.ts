@@ -1,20 +1,15 @@
 import { Request, Response, Router } from "express";
-import { app } from "../app";
 import {  db } from "../firebase";
 
 const router = Router();
 
 
-// GET /tasks: Obtener la lista de todas las tareas.
-// - POST /tasks: Agregar una nueva tarea.
-// - PUT /tasks/{taskId}: Actualizar los datos de una tarea existente.
-// - DELETE /tasks/{taskId}: Eliminar una tarea existente.
 // - GET /users/{email}: Busca el usuario si ha sido creado
 // - POST /users : Agrega un nuevo usuario
 
 router.get("/", (request: Request, response: Response) => { 
   response.status(200).send("Hello World !");
-}); 
+});
 
 router.get("/users", async (request, response) => {
     db.collection("usuarios").get().then((querySnapshot) => {
