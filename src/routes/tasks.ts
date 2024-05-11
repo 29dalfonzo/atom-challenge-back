@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
 import {  db } from "../firebase";
+import { Task } from "../models/task.model";
+import { DocumentReference, QuerySnapshot } from "firebase-admin/firestore";
 
 const router = Router();
 
@@ -14,12 +16,10 @@ router.get("/", (request: Request, response: Response) => {
 
 
 //Get /tasks
-router.get("/tasks", async (request, response) => {
-    db.collection("tasks").get().then((querySnapshot) => {
-        // querySnapshot.forEach((doc) => {
-        //     console.log(`${doc.id} => ${doc.data()}`);
-        // });
-        response.status(200).send(querySnapshot.docs.map((doc) => ({  ...doc.data(), id: doc.id,})));
+router.get("/tasks", async (request: Request, response: Response) => {
+    db.collection("tasks").get().then((querySnapshot: QuerySnapshot) => {
+        const tasks: Task[] = querySnapshot.docs.map((doc) => ({ ...doc.data() as Task, id: doc.id }));
+        response.status(200).send(tasks);
     }).catch((error) => {
         console.error("Error getting documents: ", error);
         response.status(500).send("Error getting documents");
@@ -27,9 +27,9 @@ router.get("/tasks", async (request, response) => {
 });
 
 //POST /tasks
-router.post("/tasks", async (request, response) => {
-    const task = request.body;
-    db.collection("tasks").add(task).then((docRef) => {
+router.post("/tasks", async (request: Request, response: Response) => {
+    const task: Task = request.body;
+    db.collection("tasks").add(task).then((docRef: DocumentReference) => {
         console.log("task added with ID: ", docRef.id);
         task.id = docRef.id;
         response.status(201).send(task);
@@ -40,9 +40,9 @@ router.post("/tasks", async (request, response) => {
 });
 
 //PUT /tasks/{taskId}
-router.put("/tasks/:taskId", async (request, response) => {
+router.put("/tasks/:taskId", async (request: Request, response: Response) => {
     const taskId = request.params.taskId;
-    const task = request.body;
+    const task: Task = request.body;
     db.collection("tasks").doc(taskId).set(task).then(() => {
         response.status(200).send(task);
     }).catch((error) => {
@@ -52,7 +52,7 @@ router.put("/tasks/:taskId", async (request, response) => {
 });
 
 //DELETE /tasks/{taskId}
-router.delete("/tasks/:taskId", async (request, response) => {
+router.delete("/tasks/:taskId", async (request: Request, response: Response) => {
     const taskId = request.params.taskId;
     db.collection("tasks").doc(taskId).delete().then(() => {
         response.status(200).send(

@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import {  db } from "../firebase";
+import { DocumentSnapshot, QuerySnapshot } from "firebase-admin/firestore";
 
 const router = Router();
 
@@ -11,12 +12,12 @@ router.get("/", (request: Request, response: Response) => {
   response.status(200).send("Hello World !");
 });
 
-router.get("/users", async (request, response) => {
-    db.collection("usuarios").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+router.get("/users", async (request: Request, response: Response) => {
+    db.collection("usuarios").get().then((querySnapshot: QuerySnapshot) => {
+        querySnapshot.forEach((doc: DocumentSnapshot) => {
             console.log(`${doc.id} => ${doc.data()}`);
         });
-        response.status(200).send(querySnapshot.docs.map((doc) => doc.data()));
+        response.status(200).send(querySnapshot.docs.map((doc: DocumentSnapshot) => doc.data()));
     }).catch((error) => {
         console.error("Error getting documents: ", error);
         response.status(500).send("Error getting documents");
@@ -25,9 +26,9 @@ router.get("/users", async (request, response) => {
 
 
 //Get /users/{email}
-router.get("/users/:email", async (request, response) => {
+router.get("/users/:email", async (request: Request, response: Response) => {
     const email = request.params.email;
-    db.collection("usuarios").where("email", "==", email).get().then((querySnapshot) => {
+    db.collection("usuarios").where("email", "==", email).get().then((querySnapshot: QuerySnapshot) => {
         if (querySnapshot.empty) {
             response.status(404).send("No se encontró el usuario con ese email");
         } else {
@@ -42,11 +43,11 @@ router.get("/users/:email", async (request, response) => {
 });
 
 //POST /users
-router.post("/users", async (request, response) => {
+router.post("/users", async (request: Request, response: Response) => {
     const user = request.body;
     console.log('user', user);
     db.collection("usuarios").where("email", "==", user.email).get()
-    .then((querySnapshot) => {
+    .then((querySnapshot: QuerySnapshot) => {
         if (!querySnapshot.empty) {
             response.status(400).send("Ya existe un usuario con ese email");
         } else {

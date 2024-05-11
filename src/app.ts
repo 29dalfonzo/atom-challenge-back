@@ -9,8 +9,8 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(usersRouter); // Usa el router importado
-app.use(tasksRouter); // Usa el router importado
+app.use(usersRouter);
+app.use(tasksRouter);
 
 
 
