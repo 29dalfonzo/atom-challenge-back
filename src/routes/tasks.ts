@@ -19,7 +19,7 @@ router.get("/tasks", async (request, response) => {
         // querySnapshot.forEach((doc) => {
         //     console.log(`${doc.id} => ${doc.data()}`);
         // });
-        response.status(200).send(querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        response.status(200).send(querySnapshot.docs.map((doc) => ({  ...doc.data(), id: doc.id,})));
     }).catch((error) => {
         console.error("Error getting documents: ", error);
         response.status(500).send("Error getting documents");
@@ -29,10 +29,10 @@ router.get("/tasks", async (request, response) => {
 //POST /tasks
 router.post("/tasks", async (request, response) => {
     const task = request.body;
-    console.log('task', task);
     db.collection("tasks").add(task).then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-        response.status(201).send("Document written with ID: " + docRef.id);
+        console.log("task added with ID: ", docRef.id);
+        task.id = docRef.id;
+        response.status(201).send(task);
     }).catch((error) => {
         console.error("Error adding document: ", error);
         response.status(500).send("Error adding document");
@@ -44,7 +44,7 @@ router.put("/tasks/:taskId", async (request, response) => {
     const taskId = request.params.taskId;
     const task = request.body;
     db.collection("tasks").doc(taskId).set(task).then(() => {
-        response.status(200).send("Document successfully updated!");
+        response.status(200).send(task);
     }).catch((error) => {
         console.error("Error updating document: ", error);
         response.status(500).send("Error updating document");
@@ -55,7 +55,12 @@ router.put("/tasks/:taskId", async (request, response) => {
 router.delete("/tasks/:taskId", async (request, response) => {
     const taskId = request.params.taskId;
     db.collection("tasks").doc(taskId).delete().then(() => {
-        response.status(200).send("Document successfully deleted!");
+        response.status(200).send(
+            {
+                message: "Document successfully deleted!",
+                id: taskId
+            }
+        );
     }).catch((error) => {
         console.error("Error deleting document: ", error);
         response.status(500).send("Error deleting document");
