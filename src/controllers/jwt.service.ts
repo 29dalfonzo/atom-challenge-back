@@ -35,3 +35,11 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
         next();
     });
 }
+export const verifyToken = (token: string): any => {
+    if (token) {
+        token = token.split(' ')[1];
+    }
+    return jwt.verify(token, secret);
+};
+
+
