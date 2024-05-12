@@ -17,7 +17,6 @@ export const getUser = async (request: Request, response: Response) => {
             response.status(200).send({ ...userData, id: userId });
         }
     }).catch((error) => {
-        console.error("Error al buscar el email: ", error);
         response.status(500).send("Error al buscar el email");
     });
 };

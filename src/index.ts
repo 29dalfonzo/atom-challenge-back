@@ -14,3 +14,5 @@ app.listen(PORT, () => {
   // gracefully handle error
   throw new Error(error.message);
 });
+
+export { app };
