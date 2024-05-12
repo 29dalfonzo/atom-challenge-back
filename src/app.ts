@@ -11,5 +11,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use(allRoutes);
 
 
-
 export { app };
