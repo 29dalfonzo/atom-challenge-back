@@ -1,5 +1,5 @@
 import request from 'supertest';
-import {server, closeServer, validateServer} from '../../src/index'; 
+import {server, closeServer } from '../../src/index'; 
 
 
 const api=  request(server);
