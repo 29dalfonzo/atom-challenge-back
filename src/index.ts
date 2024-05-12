@@ -8,11 +8,35 @@ dotenv.config();
 const PORT = process.env.PORT;
 
 
-app.listen(PORT, () => { 
-  console.log("Server running at PORT: ", PORT); 
+let server = app.listen(PORT, () => {
+  console.log(`Server running at PORT: ${PORT}`);
 }).on("error", (error) => {
-  // gracefully handle error
   throw new Error(error.message);
 });
 
-export { app };
+function closeServer() {
+  return new Promise((resolve, reject) => {
+    if (!server.listening) {
+      console.log("Server is not running, no need to close.");
+      resolve(true);
+    } else {
+      server.close((err) => {
+        if (err) {
+          console.error('Error closing server:', err);
+          reject(err);
+        } else {
+          console.log("Server successfully closed");
+          resolve(true);
+        }
+      });
+    }
+  });
+}
+
+function validateServer() {
+  return server;
+}
+
+export { server, closeServer, validateServer };
+
+

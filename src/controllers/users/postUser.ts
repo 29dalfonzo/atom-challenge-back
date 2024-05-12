@@ -21,13 +21,11 @@ const postUser = async (request: Request, response: Response) => {
                     token: generateToken({ email: user.email, id: docRef.id }),
                 });
             }).catch((error) => {
-                console.error("Error al agregar el usuario: ", error);
                 response.status(500).send("Error al agregar el usuario");
             });
         }
     }).catch((error) => {
-        console.error("Error al verificar el email: ", error);
-        response.status(500).send("Error al verificar el email");
+        response.status(500).send("Error al verificar el email:"+error);
     });
 };
 
