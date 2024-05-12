@@ -1,22 +1,18 @@
-import { Request, Response, Router } from "express";
+import { Request, Response  } from "express";
 import { db } from "../../firebase";
 import { Task } from "../../models/task.model";
-import { DocumentReference, QuerySnapshot } from "firebase-admin/firestore";
+import {  QuerySnapshot } from "firebase-admin/firestore";
+import { verifyToken } from "../jwt.service";
 
-const router = Router();
 
 // GET /tasks: Obtener la lista de todas las tareas.
-// - POST /tasks: Agregar una nueva tarea.
-// - PUT /tasks/{taskId}: Actualizar los datos de una tarea existente.
-// - DELETE /tasks/{taskId}: Eliminar una tarea existente.
 
-router.get("/", (request: Request, response: Response) => {
-  response.status(200).send("Hello World !");
-});
-
-
-//Get /tasks
 export const getTasks = async (request: Request, response: Response) => {
+    const token = request.headers.authorization;
+    const validToken = verifyToken(token as string);
+    if (!validToken) {
+        return response.status(401).send("Unauthorized");
+    }
     db.collection("tasks").get().then((querySnapshot: QuerySnapshot) => {
         const tasks: Task[] = querySnapshot.docs.map((doc) => ({ ...doc.data() as Task, id: doc.id }));
         response.status(200).send(tasks);

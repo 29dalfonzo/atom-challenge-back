@@ -1,6 +1,7 @@
 import { Request, Response  } from "express";
 import { db } from "../../firebase";
 import { QuerySnapshot } from "firebase-admin/firestore";
+import { generateToken } from "../jwt.service";
 
 // - POST /users : Agrega un nuevo usuario
 
@@ -16,7 +17,8 @@ const postUser = async (request: Request, response: Response) => {
                 console.log("User creado con ID: ", docRef.id);
                 response.status(201).send({
                     message: "Usuario creado con exito",
-                    id: docRef.id
+                    id: docRef.id,
+                    token: generateToken({ email: user.email, id: docRef.id }),
                 });
             }).catch((error) => {
                 console.error("Error al agregar el usuario: ", error);
