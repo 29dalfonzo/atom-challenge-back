@@ -8,12 +8,14 @@ const api=  request(server);
 const user ='test@test.com'
 let token = '';
 
+
 let task: Task = {
-    id: '',
+    id: 'test',
     title: 'test',
     description: 'test',
     done: false,
-    user_id: ''
+    user_id: 'AJ11hiSlMfVD5eW8iVmt',
+    date: new Date()
 }
 
 describe('Task API', () => {

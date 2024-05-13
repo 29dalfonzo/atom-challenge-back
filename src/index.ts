@@ -17,15 +17,12 @@ let server = app.listen(PORT, () => {
 function closeServer() {
   return new Promise((resolve, reject) => {
     if (!server.listening) {
-      console.log("Server is not running, no need to close.");
       resolve(true);
     } else {
       server.close((err) => {
         if (err) {
-          console.error('Error closing server:', err);
           reject(err);
         } else {
-          console.log("Server successfully closed");
           resolve(true);
         }
       });

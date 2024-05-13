@@ -36,7 +36,7 @@ describe('User API', () => {
         expect(res.status).toBe(400);
     });
 
-        it.skip('should create a new user', async () => {
+        it('should create a new user', async () => {
             const newUser = {
                 email: user
             }
