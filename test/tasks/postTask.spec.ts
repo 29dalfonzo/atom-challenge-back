@@ -12,7 +12,8 @@ let task: Task = {
     id: '',
     title: 'test',
     description: 'test',
-    done: false
+    done: false,
+    user_id: ''
 }
 
 describe('Task API', () => {

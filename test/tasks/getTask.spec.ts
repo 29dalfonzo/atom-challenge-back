@@ -7,7 +7,7 @@ const api=  request(server);
 const user ='test@test.com'
 let token = '';
 
-describe('Task API', () => {
+describe('getTask test', () => {
 
     beforeAll(async () => {
         const loginResponse = await api
