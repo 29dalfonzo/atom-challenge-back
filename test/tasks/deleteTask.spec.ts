@@ -51,6 +51,7 @@ describe('Task API', () => {
             .delete(`/tasks/12kkkter`)
             .set('Authorization', `Bearer ${token}`);
         expect(response.status).toBe(404);
+
     });
 });
 
