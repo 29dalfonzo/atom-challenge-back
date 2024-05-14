@@ -29,7 +29,7 @@ Estas instrucciones te permitirán obtener una copia del proyecto en funcionamie
 
 clona el repositorio
 ```bash
-git clone https://github.com/29dalfonzo/atom-challenge-backend.git
+git clone https://github.com/29dalfonzo/atom-challenge-back.git
 ```
 
 ### Dependencias
@@ -43,7 +43,7 @@ git clone https://github.com/29dalfonzo/atom-challenge-backend.git
 
 * Descarga o clona este repositorio.
 ```
-cd atom-challenge-backend
+cd atom-challenge-back
 npm install
 ```
 
